@@ -1,1 +1,1 @@
-Requirements: NodeJS
+Requirements: NodeJS, NPM, Electron
