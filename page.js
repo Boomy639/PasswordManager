@@ -1,32 +1,66 @@
 document.addEventListener("DOMContentLoaded", async () => {
-	const appShell = document.querySelector("#app-shell");
-	const sidebarToggle = document.querySelector("#sidebar-toggle");
-	const sidebarHandle = document.querySelector("#sidebar-handle");
-	const tabs = document.querySelectorAll(".nav-tab");
-	const panels = document.querySelectorAll(".tab-panel");
-	const passwordForm = document.querySelector("#password-form");
-	const passwordList = document.querySelector(".password-list");
-	const passwordSearch = document.querySelector("#password-search");
-	const vaultCount = document.querySelector(".vault-count");
-	const exportButton = document.querySelector("#export-passwords");
-	const importButton = document.querySelector("#import-passwords");
-	const deleteAllButton = document.querySelector("#delete-all-passwords");
-	const csvFileInput = document.querySelector("#csv-file");
-	const importStatus = document.querySelector("#import-status");
-	const themeSelect = document.querySelector("#theme-select");
-	const themeStyleSelect = document.querySelector("#theme-style-select");
-	const pinAction = document.querySelector("#pin-action");
-	const pinForm = document.querySelector("#pin-form");
-	const currentPinLabel = document.querySelector("#current-pin-label");
-	const currentPinInput = document.querySelector("#current-pin");
-	const newPinInput = document.querySelector("#new-pin");
-	const confirmPinInput = document.querySelector("#confirm-pin");
-	const pinStatus = document.querySelector("#pin-status");
-	const cancelPin = document.querySelector("#cancel-pin");
-	const vaultLock = document.querySelector("#vault-lock");
-	const unlockForm = document.querySelector("#unlock-form");
-	const unlockPinInput = document.querySelector("#unlock-pin");
-	const unlockStatus = document.querySelector("#unlock-status");
+	const dom = {
+		appShell: document.querySelector("#app-shell"),
+		sidebarToggle: document.querySelector("#sidebar-toggle"),
+		sidebarHandle: document.querySelector("#sidebar-handle"),
+		tabs: document.querySelectorAll(".nav-tab"),
+		panels: document.querySelectorAll(".tab-panel"),
+		passwordForm: document.querySelector("#password-form"),
+		passwordList: document.querySelector(".password-list"),
+		passwordSearch: document.querySelector("#password-search"),
+		vaultCount: document.querySelector(".vault-count"),
+		exportButton: document.querySelector("#export-passwords"),
+		importButton: document.querySelector("#import-passwords"),
+		deleteAllButton: document.querySelector("#delete-all-passwords"),
+		csvFileInput: document.querySelector("#csv-file"),
+		importStatus: document.querySelector("#import-status"),
+		themeSelect: document.querySelector("#theme-select"),
+		themeStyleSelect: document.querySelector("#theme-style-select"),
+		pinAction: document.querySelector("#pin-action"),
+		pinForm: document.querySelector("#pin-form"),
+		currentPinLabel: document.querySelector("#current-pin-label"),
+		currentPinInput: document.querySelector("#current-pin"),
+		newPinInput: document.querySelector("#new-pin"),
+		confirmPinInput: document.querySelector("#confirm-pin"),
+		pinStatus: document.querySelector("#pin-status"),
+		cancelPin: document.querySelector("#cancel-pin"),
+		vaultLock: document.querySelector("#vault-lock"),
+		unlockForm: document.querySelector("#unlock-form"),
+		unlockPinInput: document.querySelector("#unlock-pin"),
+		unlockStatus: document.querySelector("#unlock-status")
+	};
+
+	const {
+		appShell,
+		sidebarToggle,
+		sidebarHandle,
+		tabs,
+		panels,
+		passwordForm,
+		passwordList,
+		passwordSearch,
+		vaultCount,
+		exportButton,
+		importButton,
+		deleteAllButton,
+		csvFileInput,
+		importStatus,
+		themeSelect,
+		themeStyleSelect,
+		pinAction,
+		pinForm,
+		currentPinLabel,
+		currentPinInput,
+		newPinInput,
+		confirmPinInput,
+		pinStatus,
+		cancelPin,
+		vaultLock,
+		unlockForm,
+		unlockPinInput,
+		unlockStatus
+	} = dom;
+
 	const storageKey = "password-manager-entries";
 	const themeStorageKey = "password-manager-theme";
 	const themeStyleStorageKey = "password-manager-theme-style";
