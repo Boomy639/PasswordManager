@@ -1,1 +1,0 @@
-Requirements: NodeJS, NPM, Electron
