@@ -4,7 +4,7 @@
 A simple, lightweight, password manager, for all.
 Compatible with Windows, Android, (Linux TBA)
 Requirements For Building Yourself:
-(Node.js, NPM, Electron)
+(Node.js, NPM, Electron) (https://www.electronjs.org/docs/latest/tutorial/tutorial-first-app)
 
 Setup files can be found in the releases tab.
 
