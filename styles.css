@@ -1,3 +1,4 @@
+/* Base page setup: keep the document in a full-height box model so the layout can stretch cleanly across the browser viewport. */
 html {
   height:100%;
 }
@@ -11,6 +12,7 @@ body {
   background:#2b1710;
 }
 
+/* Animated background layers create the moving wave effect behind the app without affecting interaction with the vault controls. */
 .bg {
   animation:slide 18s ease-in-out infinite alternate;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 1000' preserveAspectRatio='xMidYMid slice'%3E%3Cdefs%3E%3ClinearGradient id='latte' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop stop-color='%23b88968'/%3E%3Cstop offset='.5' stop-color='%23734a32'/%3E%3Cstop offset='1' stop-color='%234b281b'/%3E%3C/linearGradient%3E%3ClinearGradient id='caramel' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop stop-color='%23805236'/%3E%3Cstop offset='.5' stop-color='%23522d20'/%3E%3Cstop offset='1' stop-color='%232f180f'/%3E%3C/linearGradient%3E%3Cfilter id='shadow' x='-30%25' width='160%25'%3E%3CfeGaussianBlur stdDeviation='12'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='1000' height='1000' fill='%234b281b'/%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cg stroke='%231e100b' stroke-width='190' opacity='.3' filter='url(%23shadow)'%3E%3Cpath d='M-40 0 C140 130 140 300 -20 440 S-20 760 120 1000'/%3E%3Cpath d='M220 0 C420 150 420 320 250 470 S250 800 390 1000'/%3E%3Cpath d='M500 0 C700 150 700 330 540 480 S540 820 670 1000'/%3E%3Cpath d='M780 0 C980 150 980 340 820 500 S820 820 950 1000'/%3E%3C/g%3E%3Cpath stroke='url(%23latte)' stroke-width='180' d='M-40 0 C140 130 140 300 -20 440 S-20 760 120 1000'/%3E%3Cpath stroke='url(%23caramel)' stroke-width='180' d='M220 0 C420 150 420 320 250 470 S250 800 390 1000'/%3E%3Cpath stroke='%2344261d' stroke-width='180' d='M500 0 C700 150 700 330 540 480 S540 820 670 1000'/%3E%3Cpath stroke='%2328120c' stroke-width='180' d='M780 0 C980 150 980 340 820 500 S820 820 950 1000'/%3E%3C/g%3E%3C/svg%3E");
@@ -83,6 +85,7 @@ h1 {
   }
 }
 
+/* Theme variables define the color palette used throughout the app so the UI can be re-themed consistently. */
 :root {
   --espresso:#2b1710;
   --coffee:#5b301f;
@@ -100,6 +103,7 @@ body {
   font-family:monospace;
 }
 
+/* The app shell arranges the sidebar and content area into a single working layout that can collapse for smaller screens. */
 .app-shell {
   position:relative;
   z-index:1;
@@ -109,6 +113,7 @@ body {
   transition:padding-left .25s ease;
 }
 
+/* Sidebar styling gives the navigation panel its dark glass look and keeps it separate from the main content. */
 .sidebar {
   display:flex;
   flex:0 0 250px;
@@ -236,6 +241,7 @@ body {
   display:none;
 }
 
+/* Main content uses a safe width and spacing to keep the forms and tables readable while leaving room for the sidebar. */
 .main-content { width:min(100%, 920px); max-width:100%; padding:clamp(3rem, 9vw, 7rem) clamp(1.5rem, 7vw, 6rem); }
 .page-header { margin-bottom:3rem; animation:fade-up .7s ease both; }
 .eyebrow { margin:0 0 .8rem; color:#e0b58e; font-size:.68rem; letter-spacing:.18em; }
@@ -628,6 +634,7 @@ body[data-theme="red"] .bg {
   filter: hue-rotate(332deg) saturate(1.5) brightness(0.9);
 }
 
+/* Alternate theme styles change the background mood and art direction without altering the application logic. */
 body[data-theme-style="psp"] {
   background: #07133f;
 }
@@ -668,6 +675,7 @@ body[data-theme-style="psp"] .bg3 {
   }
 }
 
+/* Mobile responsiveness keeps the sidebar, content, and forms usable on smaller screens without breaking the layout. */
 @media (max-width:760px) {
   .app-shell {
     display:block;

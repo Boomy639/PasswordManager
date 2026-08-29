@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Browser metadata and app startup: load styles first, then run the JavaScript after the page is parsed. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Manager</title>
@@ -8,12 +9,16 @@
     <script src="page.js" defer></script>
 </head>
 <body>
+    <!-- Animated background layers create the soft wave effect behind the app without affecting the actual vault UI. -->
     <div class="bg"></div>
     <div class="bg bg2"></div>
     <div class="bg bg3"></div>
 
+    <!-- Main app shell: the sidebar and content area are wrapped together so the layout can collapse or expand. -->
     <div class="app-shell" id="app-shell" data-sidebar-state="open">
+        <!-- Sidebar navigation lets the user move between the vault list, add form, and settings. -->
         <aside class="sidebar" aria-label="Main navigation">
+            <!-- The header contains the app name and the button that hides or shows the navigation panel. -->
             <div class="sidebar-header">
                 <div class="brand">
                     <span class="brand-mark" aria-hidden="true">P</span>
@@ -23,6 +28,7 @@
                     <span aria-hidden="true">&#171;</span>
                 </button>
             </div>
+            <!-- Navigation tabs switch between the different application panels without leaving the page. -->
             <nav class="nav-tabs" role="tablist" aria-label="Password manager sections">
                 <button id="passwords-tab" class="nav-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="passwords-panel" data-tab="passwords">
                     <span aria-hidden="true">&#128273;</span> <span class="nav-label">Passwords</span>
@@ -40,17 +46,21 @@
             <div class="sidebar-footer">SECURE VAULT<br><span>LOCAL SESSION</span></div>
         </aside>
 
+        <!-- This handle is only visible when the sidebar is closed; it gives users a way to reopen it. -->
         <button class="sidebar-handle" id="sidebar-handle" type="button" aria-label="Show sidebar" title="Show sidebar" hidden>
             <span aria-hidden="true">&#187;</span>
         </button>
 
+        <!-- The main content area hosts the page heading and all the tabbed panels. -->
         <main class="main-content">
+            <!-- The page header adds a branded intro before the actual vault tools and forms. -->
             <header class="page-header">
                 <p class="eyebrow">YOUR PRIVATE SPACE</p>
                 <h1>Password Manager</h1>
                 <p class="subtitle">Everything important, kept close and locked down.</p>
             </header>
 
+            <!-- Passwords panel shows saved entries, search, imports, exports, and deletion controls. -->
             <section class="tab-panel is-visible" id="passwords-panel" role="tabpanel" aria-labelledby="passwords-tab" data-panel="passwords">
                 <div class="panel-heading"><div><p class="eyebrow">VAULT OVERVIEW</p><h2>Your passwords</h2></div><div class="vault-tools"><span class="vault-count">0 SAVED</span><button class="secondary-button" id="import-passwords" type="button">Import CSV</button><button class="secondary-button" id="export-passwords" type="button">Export TXT</button><button class="secondary-button danger-button" id="delete-all-passwords" type="button">Delete All</button><input id="csv-file" type="file" accept=".csv,text/csv" hidden><p class="import-status" id="import-status" role="status" aria-live="polite"></p></div></div>
                 <div class="panel-toolbar">
@@ -62,9 +72,11 @@
                 <div class="password-list"><p class="empty-state">Your vault is empty. Add your first password to get started.</p></div>
             </section>
 
+            <!-- Home panel acts as the landing page for the vault and a simple welcome state. -->
             <section class="tab-panel" id="home-panel" role="tabpanel" aria-labelledby="home-tab" data-panel="home" hidden>
                 <p class="eyebrow">GOOD TO SEE YOU</p><h2>Welcome back.</h2><p class="panel-copy">Your vault is quiet, organized, and ready when you are.</p>
             </section>
+            <!-- Add panel contains the form that stores a website, username, and password into the vault. -->
             <section class="tab-panel" id="add-panel" role="tabpanel" aria-labelledby="add-tab" data-panel="add" hidden>
                 <p class="eyebrow">NEW ENTRY</p><h2>Add a password.</h2>
                 <form class="entry-form" id="password-form">
@@ -75,6 +87,7 @@
                     <p class="form-status" role="status" aria-live="polite"></p>
                 </form>
             </section>
+            <!-- Settings panel handles visual themes and the vault PIN, which protect and personalize the app. -->
             <section class="tab-panel" id="settings-panel" role="tabpanel" aria-labelledby="settings-tab" data-panel="settings" hidden>
                 <p class="eyebrow">PREFERENCES</p><h2>Settings</h2>
                 <label class="setting-row" for="theme-select"><span>Theme</span><select id="theme-select"><option value="espresso">Espresso</option><option value="mocha">Mocha</option><option value="caramel">Caramel</option><option value="dark-roast">Dark roast</option><option value="blue">Blue</option><option value="red">Red</option></select></label>
@@ -90,6 +103,7 @@
             </section>
         </main>
     </div>
+    <!-- Lock screen covers the vault when the app is idle; the user must enter the correct PIN to continue. -->
     <div class="vault-lock" id="vault-lock" hidden>
         <form class="lock-panel" id="unlock-form">
             <p class="eyebrow">VAULT LOCKED</p><h2>Enter your PIN</h2><p class="panel-copy">Your vault locked for your protection.</p>

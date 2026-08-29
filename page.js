@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
+	// Grab the important elements once so the rest of the file can update the UI without repeating querySelector calls.
 	const dom = {
 		appShell: document.querySelector("#app-shell"),
 		sidebarToggle: document.querySelector("#sidebar-toggle"),
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		unlockStatus: document.querySelector("#unlock-status")
 	};
 
+	// Destructure the DOM object into clear variable names so the code stays readable and each UI element is easy to track.
 	const {
 		appShell,
 		sidebarToggle,
@@ -61,6 +63,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		unlockStatus
 	} = dom;
 
+	// Storage keys and app defaults are centralized here so the app can save state consistently and upgrade safely in future versions.
 	const storageKey = "password-manager-entries";
 	const themeStorageKey = "password-manager-theme";
 	const themeStyleStorageKey = "password-manager-theme-style";
@@ -78,9 +81,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 		localStorage.setItem(pinStorageKey, savedPin);
 	}
 
+	// Base64 helpers convert binary data to and from browser-safe strings for encrypted vault storage.
 	const toBase64 = (bytes) => btoa(String.fromCharCode(...bytes));
 	const fromBase64 = (value) => Uint8Array.from(atob(value), (char) => char.charCodeAt(0));
 
+	// Local storage access is wrapped in try/catch so the vault keeps working even if storage is blocked or unavailable.
 	const getStoredValue = (key) => {
 		try {
 			return localStorage.getItem(key);
@@ -97,6 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		}
 	};
 
+	// AES encryption uses a derived key from the user PIN plus a random salt. This keeps the saved vault encrypted instead of storing plain passwords.
 	const deriveKey = async (passphrase, saltBytes) => {
 		const keyMaterial = await crypto.subtle.importKey("raw", textEncoder.encode(passphrase), "PBKDF2", false, ["deriveKey"]);
 		return crypto.subtle.deriveKey(
@@ -149,6 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return JSON.parse(textDecoder.decode(decrypted));
 	};
 
+	// Load the saved vault from local storage and migrate older plain-text data into the new encrypted format when possible.
 	const loadPasswords = async () => {
 		const rawVault = getStoredValue(storageKey);
 		if (!rawVault) {
@@ -181,6 +188,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		}
 	};
 
+	// Restore the user's selected theme and visual style so the app feels consistent between sessions.
 	const savedTheme = localStorage.getItem(themeStorageKey) || "espresso";
 	const savedThemeStyle = localStorage.getItem(themeStyleStorageKey) || "classic";
 	document.body.dataset.theme = savedTheme;
@@ -192,6 +200,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 	currentPinLabel.hidden = !savedPin;
 	pinAction.textContent = savedPin ? "Edit PIN" : "Create PIN";
 
+	// Sidebar state toggles the navigation panel and updates the button labels to match the visible layout.
 	const setSidebarState = (state) => {
 		const nextState = state === "hidden" ? "hidden" : "open";
 		appShell.dataset.sidebarState = nextState;
@@ -202,6 +211,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		sidebarHandle.hidden = nextState === "open";
 	};
 
+	// Locking the vault hides the app content and requires PIN re-entry after inactivity or manual lock events.
 	const lockVault = () => {
 		if (!savedPin || isLocked) return;
 		isLocked = true;
@@ -222,6 +232,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		unlockPinInput.focus();
 	}
 
+	// Tab switching updates the active button and the corresponding panel, which makes the UI feel like a small app instead of a single page dump.
 	const showTab = (selectedTab) => {
 		tabs.forEach((tab) => {
 			const isSelected = tab.dataset.tab === selectedTab;
@@ -236,6 +247,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		});
 	};
 
+	// Search is filtered on the client side so it can instantly narrow the displayed passwords without reloading the browser.
 	const getFilteredPasswords = () => {
 		const searchTerm = (passwordSearch?.value || "").trim().toLowerCase();
 		if (!searchTerm) return savedPasswords;
@@ -247,6 +259,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		});
 	};
 
+	// Empty-state messages keep the vault list clear when there are no entries or no search matches.
 	const updateEmptyState = (visiblePasswords = getFilteredPasswords()) => {
 		const emptyState = passwordList.querySelector(".empty-state");
 		if (visiblePasswords.length === 0) {
@@ -268,6 +281,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		if (emptyState) emptyState.remove();
 	};
 
+	// The count label reflects the filtered search results or total saved entries so the user always sees the current vault size.
 	const updateCount = () => {
 		const visiblePasswords = getFilteredPasswords();
 		if ((passwordSearch?.value || "").trim()) {
@@ -277,10 +291,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 		vaultCount.textContent = `${savedPasswords.length} SAVED`;
 	};
 
+	// Persisting saves the current vault to storage as encrypted JSON so the app survives refreshes without exposing raw secrets.
 	const persistPasswords = async () => {
 		setStoredValue(storageKey, await encryptVault(savedPasswords, savedPin));
 	};
 
+	// CSV import parses a simple spreadsheet format into rows and fields, allowing common password export layouts to be read safely.
 	const parseCsv = (csv) => {
 		const rows = [];
 		let row = [];
@@ -315,6 +331,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return rows;
 	};
 
+	// Importing converts the CSV rows into password objects only when the required columns are present and valid.
 	const importCsv = (csv) => {
 		const rows = parseCsv(csv);
 		if (rows.length < 2) return { imported: 0, skipped: 0 };
@@ -340,6 +357,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return { imported, skipped };
 	};
 
+	// Each password card is rendered as a small card with a site icon, username, and actions for copy or delete.
 	const createPasswordCard = (entry, index) => {
 		const card = document.createElement("article");
 		card.className = "password-card";
@@ -359,6 +377,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return card;
 	};
 
+	// Rendering rebuilds the list from current data and keeps the count and empty-state UI in sync with what is visible.
 	const renderPasswords = () => {
 		const visiblePasswords = getFilteredPasswords();
 		passwordList.replaceChildren();
