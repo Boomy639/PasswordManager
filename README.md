@@ -14,6 +14,3 @@ CSV Importing, Exporting to TXT, Encryption, Search bar (for if you have hundred
 
 DEFAULT PIN IS: 1111 // Changeable in settings after first setup.
 
-<img width="1080" height="2400" alt="Screenshot_2026-08-29-00-36-57-77_cee4e94b0ffd8f30fd640151766241a7" src="https://github.com/user-attachments/assets/8b0ed19c-dade-4d0d-b46e-42e0ea7c0a1a" />
-<img width="1080" height="2400" alt="Screenshot_2026-08-29-00-36-24-08_cee4e94b0ffd8f30fd640151766241a7" src="https://github.com/user-attachments/assets/4ae6406f-e17a-41a3-933c-e4aba2f4f253" />
-
